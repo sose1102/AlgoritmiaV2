@@ -23,10 +23,10 @@ if __name__ == '__main__':
         sys.exit(1)
 
     lv = LabyrinthViewer(graph_copy,
-                         canvas_width=400,
-                         canvas_height=400,
+                         canvas_width=1600,
+                         canvas_height=900,
                          margin=10,
-                         wall_width=4)
+                         wall_width=2)
 
     lv.set_input_point((0, 0))
     lv.set_output_point((rows - 1, cols - 1))

@@ -6,6 +6,7 @@ from typing import TextIO, Optional, List
 from algoritmia.datastructures.graphs import UndirectedGraph
 from algoritmia.datastructures.mergefindsets import MergeFindSet
 from algoritmia.datastructures.queues import Fifo
+from pandocfilters import Math
 
 Vertex = tuple[int, int]
 Edge = tuple[Vertex, Vertex]
@@ -89,24 +90,25 @@ def process(lab: UndirectedGraph[Vertex], rows: int, cols: int) -> tuple[Optiona
     end = backpointers(bf_search(lab, target))
 
     norm = start[(rows - 1, cols - 1)][1]
-    min = norm
+    short = norm
 
     for r in range(rows - 1):
         for c in range(cols - 1):
+
             jStart = start[(r, c)][1]
             jEnd = end[(r, c + 1)][1]
 
-            if (jStart + jEnd + 1) < min:
-                min = jStart + jEnd + 1
+            if (jStart + jEnd + 1) < short:
+                short = jStart + jEnd + 1
                 wall = ((r, c), (r, c + 1))
 
             jEnd = end[(r + 1, c)][1]
 
-            if (jStart + jEnd + 1) < min:
-                min = jStart + jEnd + 1
+            if (jStart + jEnd + 1) < short:
+                short = jStart + jEnd + 1
                 wall = ((r, c), (r + 1, c))
 
-    return wall, norm, min
+    return wall, norm, short
 
 
 def show_results(edge_to_add: Optional[Edge], length_before: int, length_after: int):
