@@ -33,15 +33,7 @@ def create_labyrinth(rows: int, cols: int, n: int, s: int) -> UndirectedGraph[Ve
             corridors.append((u, v))
     return UndirectedGraph(E=corridors)
 
-'''
-    def crearmatriz(filas:int,cols:int):
-    m = []
-    for i in range(filas):
-        m.append([])
-        for j in range(cols):
-            m[i].append(-1)
-    return m
-'''
+
 def bf_search(g: UndirectedGraph[Vertex], source: Vertex) -> List[Edge]:
     edges = []
     q = Fifo()
