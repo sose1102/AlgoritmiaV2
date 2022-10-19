@@ -86,31 +86,32 @@ def process(lab: UndirectedGraph[Vertex], rows: int, cols: int) -> tuple[Optiona
 
     for r in range(rows - 1):
         for c in range(cols - 1):
-
             jStart = start[(r, c)][1]
             jEnd = end[(r, c + 1)][1]
 
             if (jStart + jEnd + 1) < short:
                 short = jStart + jEnd + 1
                 wall = ((r, c), (r, c + 1))
-            #Prueba-------------------------------------------
-            elif short == (jStart + jEnd + 1):
-                if wall > ((r, c), (r, c + 1)):
-                    wall = ((r, c), (r, c + 1))
-                elif wall > ((r, c), (r, c - 1)) and c - 1 > 0:
-                    wall = ((r, c), (r, c - 1))
 
             jEnd = end[(r + 1, c)][1]
 
             if (jStart + jEnd + 1) < short:
                 short = jStart + jEnd + 1
                 wall = ((r, c), (r + 1, c))
-            #Prueba-------------------------------------------
-            elif short == (jStart + jEnd + 1):
-                if wall > ((r, c), (r, c + 1)):
-                    wall = ((r, c), (r, c + 1))
-                elif wall > ((r, c), (r - 1, c)) and r - 1 > 0:
-                    wall = ((r, c), (r, c + 1))
+
+            if r > 0:
+                jEnd = end[(r - 1, c)][1]
+
+                if (jStart + jEnd + 1) <= short:
+                    short = jStart + jEnd + 1
+                    wall = ((r - 1, c), (r, c))
+
+            elif c > 0:
+                jEnd = end[(r, c - 1)][1]
+
+                if (jStart + jEnd + 1) <= short:
+                    short = jStart + jEnd + 1
+                    wall = ((r, c - 1), (r, c))
 
     return wall, norm, short
 
