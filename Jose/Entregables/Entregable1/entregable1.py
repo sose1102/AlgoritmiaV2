@@ -6,12 +6,12 @@ from typing import TextIO, Optional, List
 from algoritmia.datastructures.graphs import UndirectedGraph
 from algoritmia.datastructures.mergefindsets import MergeFindSet
 from algoritmia.datastructures.queues import Fifo
-from pandocfilters import Math
 
 Vertex = tuple[int, int]
 Edge = tuple[Vertex, Vertex]
 
 NO_VALID_WALL = 'NO VALID WALL'
+
 
 # Función ya implementada
 # Esta función utiliza un MFSet para crear un laberinto, pero le añade n aristas
