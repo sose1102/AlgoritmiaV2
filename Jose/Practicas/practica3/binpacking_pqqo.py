@@ -15,18 +15,18 @@ def process(C: int, w: list[int]) -> list[int]:
 
     for i in indices:
         obj = w[i]
-        nc = None
-        for j in range(len(free)):
-            if obj <= free[j]:
+        nc = None #Numero de contenedor
+        for j in range(len(free)): #Recorre la lista de libres
+            if obj <= free[j]: #Si el objeto cabe lo inserta
                 nc = j
                 break
 
-        if nc is None:
-            free.append(C)
+        if nc is None: #Si no se inserta el dato y se acaban los contenedores
+            free.append(C) #Se añade otro contenedor
             nc = len(free) - 1
 
-        containers[i] = nc
-        free[nc] -= obj
+        containers[i] = nc #Se indica la posición del elemento
+        free[nc] -= obj #Se le resta a la capacidad del contenedor el tamaño del objeto
 
     return containers
 
