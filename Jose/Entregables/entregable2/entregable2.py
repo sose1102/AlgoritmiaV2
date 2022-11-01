@@ -14,7 +14,7 @@ def read_data(f: TextIO) -> tuple[int, list[Leaflet]]:
     lFolletos: list[Leaflet] = []
 
     for linea in f.readlines():
-        nF, ancho, alt = linea
+        nF, ancho, alt = linea.strip().split()
         lFolletos.append((int(nF), int(ancho), int(alt)))
 
     return tamPap, lFolletos
@@ -23,28 +23,34 @@ def read_data(f: TextIO) -> tuple[int, list[Leaflet]]:
 # Recibe el tamaño del papel de la imprenta y la lista de folletos
 # Devuelve tamaño del papel y lista de folletos
 def process(paper_size: int, leaflet_list: list[Leaflet]) -> list[LeafletPos]:
-    pages: list[LeafletPos] = [(-1, -1, -1, -1)] * len(leaflet_list) #Resultado con tuplas tamaño folleto, numero pagina, posición horizontal, posición vertical
-    free: list[(int, int)] = [] #Las paginas son cuadradas con lados de tamaño paper_size
-    indices = sorted(range(len(leaflet_list)), key=lambda i: -(leaflet_list[i][1] + leaflet_list[i][2])) #Ordenar la lista según la suma de los lados de los folletos
-    ph = 0
-    pv = 0
+    pages: list[LeafletPos] = []
+    free: list[tuple[tuple[int, int], tuple[int, int]]] = []
+    indices = sorted(leaflet_list, key=lambda tup: (-tup[2], -tup[1]))
 
-    for i in indices:
-        obj = leaflet_list[i]
-        np = None
-        for j in range(len(free)):
-            if (obj[1] + obj[2]) <= free[j]:
-                np =
+    for obj in indices:
+        nF, anc, alt = obj
+        nH = None
+        for i in range(len(free)):
+            lado, arriba = free[i]
+
+            if lado[0] + anc <= paper_size and (alt < arriba[0] != 0 or anc + lado[0] < lado[1] != 0):
+                pages.append((nF, (i + 1), lado[0], 0))
+                free[i] = ((lado[0] + anc, lado[0]), arriba)
+                nH = i
                 break
 
-        if np is None:
-            free.append(paper_size)
-            np = len(free) - 1
+            elif arriba[0] + alt <= paper_size and (anc < lado[0] != 0 or arriba[0] > arriba[1] != 0):
+                pages.append((nF, (i + 1), 0, arriba[0]))
+                free[i] = (lado, (arriba[0] + alt, arriba[0]))
+                nH = i
+                break
 
-        pages[i] = obj[i][0], np, ph, pv
-        free[np][] -= obj[1]
+        if nH is None:
+            free.append(((anc, 0), (alt, 0)))
+            pages.append((nF, len(free), 0, 0))
 
     return pages
+
 
 
 # Muestra por la salida estandar las posiciones de los folletos (ver apartado 1.2)
