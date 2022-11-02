@@ -26,23 +26,28 @@ def process(paper_size: int, leaflet_list: list[Leaflet]) -> list[LeafletPos]:
     pages: list[LeafletPos] = []
     free: list[tuple[tuple[int, int], tuple[int, int]]] = []
     indices = sorted(leaflet_list, key=lambda tup: (-tup[2], -tup[1]))
+    min = 0
 
     for obj in indices:
         nF, anc, alt = obj
         nH = None
-        for i in range(len(free)):
+        for i in range(min, len(free)):
             lado, arriba = free[i]
 
             if lado[0] + anc <= paper_size and (alt < arriba[0] != 0 or anc + lado[0] < lado[1] != 0):
                 pages.append((nF, (i + 1), lado[0], 0))
                 free[i] = ((lado[0] + anc, lado[0]), arriba)
                 nH = i
+                if (lado[0] * arriba[1]) / (paper_size * paper_size) > 0.75:
+                    min = i
                 break
 
             elif arriba[0] + alt <= paper_size and (anc < lado[0] != 0 or arriba[0] > arriba[1] != 0):
                 pages.append((nF, (i + 1), 0, arriba[0]))
                 free[i] = (lado, (arriba[0] + alt, arriba[0]))
                 nH = i
+                if (lado[0] * arriba[1]) / (paper_size * paper_size) > 0.75:
+                    min = i
                 break
 
         if nH is None:
