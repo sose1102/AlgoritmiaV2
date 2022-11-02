@@ -26,33 +26,33 @@ def process(paper_size: int, leaflet_list: list[Leaflet]) -> list[LeafletPos]:
     pages: list[LeafletPos] = []
     free: list[tuple[tuple[int, int], tuple[int, int]]] = []
     indices = sorted(leaflet_list, key=lambda tup: (-tup[2], -tup[1]))
-    min = 0
+    dondeMirar = 0
 
     for obj in indices:
-        nF, anc, alt = obj
+        numFolleto, ancho, alto = obj
         nH = None
-        for i in range(min, len(free)):
-            lado, arriba = free[i]
+        for i in range(dondeMirar, len(free)):
+            añadirLado, añadirArriba = free[i]
 
-            if lado[0] + anc <= paper_size and (alt < arriba[0] != 0 or anc + lado[0] < lado[1] != 0):
-                pages.append((nF, (i + 1), lado[0], 0))
-                free[i] = ((lado[0] + anc, lado[0]), arriba)
+            if añadirLado[0] + ancho <= paper_size and (alto < añadirArriba[0] != 0 or ancho + añadirLado[0] < añadirLado[1] != 0):
+                pages.append((numFolleto, (i + 1), añadirLado[0], 0))
+                free[i] = ((añadirLado[0] + ancho, añadirLado[0]), añadirArriba)
                 nH = i
-                if (lado[0] * arriba[1]) / (paper_size * paper_size) > 0.75:
-                    min = i
+                if (añadirLado[0] * añadirArriba[1]) / (paper_size * paper_size) > 0.75:
+                    dondeMirar = i
                 break
 
-            elif arriba[0] + alt <= paper_size and (anc < lado[0] != 0 or arriba[0] > arriba[1] != 0):
-                pages.append((nF, (i + 1), 0, arriba[0]))
-                free[i] = (lado, (arriba[0] + alt, arriba[0]))
+            elif añadirArriba[0] + alto <= paper_size and (ancho < añadirLado[0] != 0 or añadirArriba[0] > añadirArriba[1] != 0):
+                pages.append((numFolleto, (i + 1), 0, añadirArriba[0]))
+                free[i] = (añadirLado, (añadirArriba[0] + alto, añadirArriba[0]))
                 nH = i
-                if (lado[0] * arriba[1]) / (paper_size * paper_size) > 0.75:
-                    min = i
+                if (añadirLado[0] * añadirArriba[1]) / (paper_size * paper_size) > 0.75:
+                    dondeMirar = i
                 break
 
         if nH is None:
-            free.append(((anc, 0), (alt, 0)))
-            pages.append((nF, len(free), 0, 0))
+            free.append(((ancho, 0), (alto, 0)))
+            pages.append((numFolleto, len(free), 0, 0))
 
     return pages
 
