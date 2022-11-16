@@ -3,7 +3,7 @@ from traceback import print_tb
 
 from easypaint import EasyPaint
 
-from entregable2 import *
+from entregable25 import *
 from entregable2_test import check_solution
 
 def error_e(msg: str, e: Exception, tb):

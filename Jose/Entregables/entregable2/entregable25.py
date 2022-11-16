@@ -38,16 +38,16 @@ def process(paper_size: int, leaflet_list: list[Leaflet]) -> list[LeafletPos]:
                 pages.append((numFolleto, (i + 1), añadirLado[0], 0))
                 free[i] = ((añadirLado[0] + ancho, añadirLado[0]), añadirArriba)
                 nH = i
-                if (añadirLado[0] * añadirArriba[1]) / (paper_size * paper_size) > 0.75:
-                    dondeMirar = i
+                #if (añadirLado[0] * añadirArriba[1]) / (paper_size * paper_size) > 0.7:
+                #    dondeMirar = i
                 break
 
             elif añadirArriba[0] + alto <= paper_size and (ancho < añadirLado[0] != 0 or añadirArriba[0] > añadirArriba[1] != 0):
                 pages.append((numFolleto, (i + 1), 0, añadirArriba[0]))
                 free[i] = (añadirLado, (añadirArriba[0] + alto, añadirArriba[0]))
                 nH = i
-                if (añadirLado[0] * añadirArriba[1]) / (paper_size * paper_size) > 0.75:
-                    dondeMirar = i
+                #if (añadirLado[0] * añadirArriba[1]) / (paper_size * paper_size) > 0.7:
+                #    dondeMirar = i
                 break
 
         if nH is None:
@@ -55,7 +55,6 @@ def process(paper_size: int, leaflet_list: list[Leaflet]) -> list[LeafletPos]:
             pages.append((numFolleto, len(free), 0, 0))
 
     return pages
-
 
 
 # Muestra por la salida estandar las posiciones de los folletos (ver apartado 1.2)

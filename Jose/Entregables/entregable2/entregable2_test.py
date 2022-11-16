@@ -6,7 +6,7 @@ from enum import Enum
 from time import process_time
 from traceback import print_tb
 
-from entregable2 import *
+from entregable25 import *
 
 
 class Result(Enum):
