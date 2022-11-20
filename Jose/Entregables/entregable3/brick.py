@@ -37,46 +37,50 @@ class Brick:
     # Funcion para mover el bloque, como el bloque es inmutable el 'move' devuelve otro bloque
     def move(self, d: Direction) -> Brick:
         # TODO: IMPLEMENTAR
-        b1, b2 = self
+        b1 = self.b1
+        b2 = self.b2
         if b1 == b2: #Si esta de pie
-            x, y = b1
+            row = b1.row
+            col = b1.col
             if d.value == "L":
-                nB1 = RowCol(x-1, y)
-                nB2 = RowCol(x-2, y)
+                nB1 = RowCol(row, col - 2)
+                nB2 = RowCol(row, col - 1)
             elif d.value == "R":
-                nB1 = RowCol(x+1, y)
-                nB2 = RowCol(x+2, y)
+                nB1 = RowCol(row, col + 1)
+                nB2 = RowCol(row, col + 2)
             elif d.value == "U":
-                nB1 = RowCol(x, y+1)
-                nB2 = RowCol(x, y+2)
+                nB1 = RowCol(row - 2, col)
+                nB2 = RowCol(row - 1, col)
             else:
-                nB1 = RowCol(x, y-1)
-                nB2 = RowCol(x, y-2)
+                nB1 = RowCol(row + 1, col)
+                nB2 = RowCol(row + 2, col)
         else: #Si esta acostado
-            x1, y1 = b1
-            x2, y2 = b2
-            if x1 == x2: #Si esta acostado sobre el eje y
+            col1 = b1.col
+            row1 = b1.row
+            col2 = b2.col
+            row2 = b2.row
+            if col1 == col2: #Si esta acostado sobre el eje y
                 if d.value == "L":
-                    nB1 = RowCol(x1-1, y1)
-                    nB2 = RowCol(x2-1, y2)
+                    nB1 = RowCol(row1, col1-1)
+                    nB2 = RowCol(row2, col2-1)
                 elif d.value == "R":
-                    nB1 = RowCol(x1+1, y1)
-                    nB2 = RowCol(x2+1, y2)
+                    nB1 = RowCol(row1, col1+1)
+                    nB2 = RowCol(row2, col2+1)
                 elif d.value == "U":
-                    nB1 = nB2 = RowCol(x2, y2+1)
+                    nB1 = nB2 = RowCol(row1 - 1, col1)
                 else:
-                    nB1 = nB2 = RowCol(x1, y1-1)
+                    nB1 = nB2 = RowCol(row2 + 1, col2)
             else: #Si esta acostado sobre el eje x
                 if d.value == "L":
-                    nB1 = nB2 = RowCol(x1-1, y2)
+                    nB1 = nB2 = RowCol(row1, col1 - 1)
                 elif d.value == "R":
-                    nB1 = nB2 = RowCol(x1+1, y2)
+                    nB1 = nB2 = RowCol(row2, col2 + 1)
                 elif d.value == "U":
-                    nB1 = RowCol(x1, y1+1)
-                    nB2 = RowCol(x2, y2+1)
+                    nB1 = RowCol(row1 - 1, col1)
+                    nB2 = RowCol(row2 - 1, col2)
                 else:
-                    nB1 = RowCol(x1, y1-1)
-                    nB2 = RowCol(x2, y2-1)
+                    nB1 = RowCol(row1 + 1, col1)
+                    nB2 = RowCol(row2 + 1, col2)
 
         return Brick(nB1, nB2)
 
