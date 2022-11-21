@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from board import RowCol
+from board import *
 from direction import Direction
 
 
@@ -85,5 +85,41 @@ class Brick:
         return Brick(nB1, nB2)
 
     # IMPORTANTE: Puedes añadir métodos adicionales a la clase Brick
-    def posibles_move(self):
-        pass
+    def posibles_move(self, board: Board):
+        posibles = []
+        b1 = self.b1
+        b2 = self.b2
+        if b1 == b2:  # Si esta de pie
+            if board.has_tile(RowCol(b1.row, b1.col - 2)): #Es posible el movimiento a la Izquierda
+                posibles.append('L')
+            if board.has_tile(RowCol(b2.row, b2.col + 2)): #Es posible el movimiento a la Derecha
+                posibles.append('R')
+            if board.has_tile(RowCol(b2.row - 1, b2.col)):  # Es posible el movimiento a la Arriba
+                posibles.append('U')
+            if board.has_tile(RowCol(b2.row + 2, b2.col)):  # Es posible el movimiento a la Abajo
+                posibles.append('D')
+        else:  # Si esta acostado
+            col1 = b1.col
+            row1 = b1.row
+            col2 = b2.col
+            row2 = b2.row
+            if col1 == col2:  # Si esta acostado sobre el eje y
+                if board.has_tile(RowCol(row1, col1 - 1)) and board.has_tile(RowCol(row2, col2 - 1)):  # Es posible el movimiento a la Izquierda
+                    posibles.append('L')
+                if board.has_tile(RowCol(row1, col1 + 1)) and board.has_tile(RowCol(row2, col2 + 1)):  # Es posible el movimiento a la Derecha
+                    posibles.append('R')
+                if board.has_tile(RowCol(row1 - 1, col1)):  # Es posible el movimiento a la Arriba
+                    posibles.append('U')
+                if board.has_tile(RowCol(row2 + 1, col2)):  # Es posible el movimiento a la Abajo
+                    posibles.append('D')
+            else:  # Si esta acostado sobre el eje x
+                if board.has_tile(RowCol(row1, col1 - 1)):  # Es posible el movimiento a la Izquierda
+                    posibles.append('L')
+                if board.has_tile(RowCol(row2, col2 + 1)):  # Es posible el movimiento a la Derecha
+                    posibles.append('R')
+                if board.has_tile(RowCol(row1 - 1, col1)) and board.has_tile(RowCol(row2 - 1, col2)):  # Es posible el movimiento a la Arriba
+                    posibles.append('U')
+                if board.has_tile(RowCol(row1 + 1, col1)) and board.has_tile(RowCol(row2 + 1, col2)):  # Es posible el movimiento a la Abajo
+                    posibles.append('D')
+
+        return posibles

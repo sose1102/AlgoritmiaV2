@@ -5,7 +5,7 @@ from collections.abc import Iterator
 from dataclasses import dataclass
 from typing import Optional, TextIO, Iterable, Tuple
 
-from algoritmia.schemes.bt_scheme import *
+from algoritmia.schemes.bt_scheme import bt_min_solve, ScoredDecisionSequence
 
 from board import Board, RowCol
 from brick import Brick
@@ -37,8 +37,7 @@ def process(board: Board) -> Optional[Solution]:
 
     class BoardDS(DecisionSequence):
         def is_solution(self) -> bool:
-            return len(
-                self.extra.posicion) == 'T'  # Cuando se alcance la posición T y los bloques esten en la misma posición
+            return self.extra.brick.b1 == self.extra.brick.b2 == board.target_pos()  # Cuando se alcance la posición T y los bloques esten en la misma posición
 
         def successors(self) -> Iterable["DecisionSequence"]:
             # Para todas las posiciones posibles hacer el movimiento para cada una de ellas
@@ -48,7 +47,7 @@ def process(board: Board) -> Optional[Solution]:
             # Volver el tablero a la posición anterior
 
         def state(self) -> State:  # Poda
-            return self.extra.piezas
+            return self.extra.brick
 
     brik = Brick(board.start_pos(), board.start_pos())
     initial_ds = BoardDS(Extra(brik))
