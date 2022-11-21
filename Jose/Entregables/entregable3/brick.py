@@ -85,3 +85,5 @@ class Brick:
         return Brick(nB1, nB2)
 
     # IMPORTANTE: Puedes añadir métodos adicionales a la clase Brick
+    def posibles_move(self):
+        pass
