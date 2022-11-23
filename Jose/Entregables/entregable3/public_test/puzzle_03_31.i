@@ -1,9 +1,0 @@
-oooooooooooo
-ooooooooo-oo
-o--o---o--oo
-oooooooooooo
--oo---o--ooo
-ooooT-oSooo-
-ooo--oo--ooo
--ooooooooooo
--------ooo--
